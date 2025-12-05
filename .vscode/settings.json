@@ -1,0 +1,7 @@
+{
+  "prisma.prismaPath": "node_modules/prisma/build/index.js",
+  "prisma.showPrismaDataPlatformNotification": false,
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  }
+}
