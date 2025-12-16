@@ -44,3 +44,6 @@ next-env.d.ts
 
 # prisma backup files
 *.bak
+
+# Claude Code settings
+.claude/
