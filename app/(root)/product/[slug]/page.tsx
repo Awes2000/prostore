@@ -2,9 +2,10 @@ import { notFound } from 'next/navigation';
 import { getProductBySlug } from '@/lib/actions/product.actions';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import ProductPrice from '@/components/shared/product/product-price';
 import ProductImages from '@/components/shared/product/product-images';
+import AddToCartButton from '@/components/cart/add-to-cart-button';
+import { getCart } from '@/lib/cart';
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -17,6 +18,10 @@ const ProductDetailsPage = async ({ params }: Props) => {
   if (!product) {
     notFound();
   }
+
+  // Get cart to check if product is already in cart
+  const cart = await getCart();
+  const cartItem = cart?.items.find((item) => item.productId === product.id);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
@@ -68,9 +73,12 @@ const ProductDetailsPage = async ({ params }: Props) => {
               )}
             </div>
 
-            {product.stock > 0 && (
-              <Button className="w-full">Add to Cart</Button>
-            )}
+            <AddToCartButton
+              productId={product.id}
+              stock={product.stock}
+              cartItemId={cartItem?.id}
+              initialQuantity={cartItem?.quantity || 0}
+            />
           </CardContent>
         </Card>
       </div>

@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { EllipsisVertical, ShoppingCart, UserIcon } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -9,6 +10,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { ModeToggle } from './mode-toggle'
+import CartBadge from '@/components/cart/cart-badge'
 
 export default function Menu() {
   return (
@@ -16,11 +18,16 @@ export default function Menu() {
       {/* Desktop Navigation - hidden on mobile */}
       <nav className="hidden md:flex w-full max-w-xs gap-1">
         <ModeToggle />
-        <Button asChild variant="ghost">
-          <Link href="/cart">
-            <ShoppingCart /> Cart
-          </Link>
-        </Button>
+        <Suspense
+          fallback={
+            <Button variant="ghost">
+              <ShoppingCart className="h-5 w-5" />
+              <span className="ml-1">Cart</span>
+            </Button>
+          }
+        >
+          <CartBadge />
+        </Suspense>
         <Button asChild>
           <Link href="/sign-in">
             <UserIcon /> Sign in
@@ -38,11 +45,16 @@ export default function Menu() {
             <SheetTitle>Menu</SheetTitle>
             <div className="flex flex-col gap-3 mt-4 w-full">
               <ModeToggle />
-              <Button asChild variant="ghost" className="w-full justify-start">
-                <Link href="/cart">
-                  <ShoppingCart /> Cart
-                </Link>
-              </Button>
+              <Suspense
+                fallback={
+                  <Button variant="ghost" className="w-full justify-start">
+                    <ShoppingCart className="h-5 w-5" />
+                    <span className="ml-1">Cart</span>
+                  </Button>
+                }
+              >
+                <CartBadge />
+              </Suspense>
               <Button asChild className="w-full justify-start">
                 <Link href="/sign-in">
                   <UserIcon /> Sign in
